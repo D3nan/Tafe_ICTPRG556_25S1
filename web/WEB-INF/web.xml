@@ -5,14 +5,12 @@
             30
         </session-timeout>
     </session-config>
-     <servlet>
-	<servlet-name>main</servlet-name>
-	<servlet-class>controller.FrontController</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-	<servlet-name>main</servlet-name>
+    <servlet>
+        <servlet-name>FrontController</servlet-name>
+        <servlet-class>controller.FrontController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FrontController</servlet-name>
         <url-pattern>/books</url-pattern>
-  </servlet-mapping>
-
-    </web-app>
+    </servlet-mapping>
+</web-app>

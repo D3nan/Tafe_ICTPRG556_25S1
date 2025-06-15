@@ -1,6 +1,5 @@
 package controller;
 
-import dispatchers.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.*;
@@ -12,9 +11,9 @@ import utility.AdmitBookStoreDAO;
 /**
  * FrontController class to handle HTTP requests and responses.
  */
-public class FrontController extends HttpServlet {
+public class FrontController_without_Dispatchers extends HttpServlet {
 
-    private final HashMap dispatchers = new HashMap();
+    private final HashMap actions = new HashMap();
 
     /**
      * Initialize global variables.
@@ -24,7 +23,7 @@ public class FrontController extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         // Additional initialization code can be added here
-        dispatchers.put(null, new NullActionDispatcher()); // For null or unspecified actions
+
 
     }
 
@@ -52,19 +51,14 @@ public class FrontController extends HttpServlet {
         response.setContentType("text/html");
 
         // Get the requested action from the request parameters
-            String requestedAction = request.getParameter("Action");
-            HttpSession session = request.getSession();
-            AdmitBookStoreDAO dao = new AdmitBookStoreDAO();
-            String nextPage = "";
-            
+        String requestedAction = request.getParameter("Action");
+        HttpSession session = request.getSession();
+        AdmitBookStoreDAO dao = new AdmitBookStoreDAO();
+        String nextPage = "";
 
         // If no action is specified, fetch all books and display them
         if (requestedAction == null) {
-            Dispatcher dispatcher = (Dispatcher) dispatchers.get(requestedAction); // Or pass "null" explicitly
-            response.sendRedirect(dispatcher.execute(request, response));      
-            
-                        
-            /** dao = new AdmitBookStoreDAO();
+            dao = new AdmitBookStoreDAO();
             List<Book> books = null;
             nextPage = "/jsp/error.jsp";
             session = request.getSession();
@@ -80,7 +74,7 @@ public class FrontController extends HttpServlet {
                 nextPage = "/jsp/error.jsp";
             } finally {
                 this.dispatch(request, response, nextPage);
-            } **/
+            }
         } else if (requestedAction.equals("add_to_cart")) {
             nextPage = "/jsp/titles.jsp";
 
