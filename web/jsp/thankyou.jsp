@@ -8,13 +8,11 @@
         <link rel="stylesheet" type="text/css" href="../css/style.css">
     </head>
     <body>
-       <%@ include file="header.jsp" %> <!-- Added header -->
        
         <h2>Thank You For Shopping at Bookstore</h2>
         <hr>
         <h3>Your credit card details are being validated</h3>
         <% session.invalidate();%>
         
-        <%@ include file="footer.jsp" %> <!-- Added footer -->
     </body>
 </html>
