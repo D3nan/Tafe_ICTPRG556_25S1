@@ -11,8 +11,10 @@ import javax.servlet.http.*;
  *
  * @author denan
  */
-public interface Dispatcher {
-    public String execute (HttpServletRequest request, HttpServletResponse response);
-
-    
+public class CheckoutDispatcher implements Dispatcher{
+     @Override
+    public String execute(HttpServletRequest request, HttpServletResponse response){
+         return "/jsp/checkout.jsp";
+    }
 }
+

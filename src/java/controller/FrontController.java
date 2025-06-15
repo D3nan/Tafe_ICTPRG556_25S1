@@ -1,5 +1,6 @@
 package controller;
 
+
 import dispatchers.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -15,7 +16,7 @@ import utility.AdmitBookStoreDAO;
 public class FrontController extends HttpServlet {
 
     private final HashMap dispatchers = new HashMap();
-
+    private final HashMap actions = new HashMap();
     /**
      * Initialize global variables.
      * @param config ServletConfig object
@@ -24,63 +25,38 @@ public class FrontController extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         // Additional initialization code can be added here
-        dispatchers.put(null, new NullActionDispatcher()); // For null or unspecified actions
-
+        dispatchers.put("Checkout", new CheckoutDispatcher());
+        dispatchers.put("Continue", new ContinueDispatcher());
+        dispatchers.put(null, new NullActionDispatcher());
     }
 
-    /**
-     * Process the HTTP GET request.
-     * @param request HttpServletRequest object
-     * @param response HttpServletResponse object
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.err.println("doGet()");
-        // Forward GET requests to doPost method
-        doPost(request, response);
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
-    /**
-     * Process the HTTP POST request.
-     * @param request HttpServletRequest object
-     * @param response HttpServletResponse object
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+    
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
         // Get the requested action from the request parameters
-            String requestedAction = request.getParameter("Action");
-            HttpSession session = request.getSession();
-            AdmitBookStoreDAO dao = new AdmitBookStoreDAO();
-            String nextPage = "";
-            
+        String requestedAction = request.getParameter("Action");
+        HttpSession session = request.getSession();
+        AdmitBookStoreDAO dao = new AdmitBookStoreDAO();
+        String nextPage = "";
 
         // If no action is specified, fetch all books and display them
         if (requestedAction == null) {
-            Dispatcher dispatcher = (Dispatcher) dispatchers.get(requestedAction); // Or pass "null" explicitly
-            response.sendRedirect(dispatcher.execute(request, response));      
+            Dispatcher dispatcher = (Dispatcher) dispatchers.get(requestedAction);
+            this.dispatch(request, response, dispatcher.execute(request, response));
             
-                        
-            /** dao = new AdmitBookStoreDAO();
-            List<Book> books = null;
-            nextPage = "/jsp/error.jsp";
-            session = request.getSession();
-            try {
-                books = dao.getAllBooks();
-                if (books == null) { //Newly added comment to check for null exceptions
-                    throw new IllegalStateException("No books fetched from the DAO.");
-                }
-                session.setAttribute("Books", books);
-                nextPage = "/jsp/titles.jsp";
-            } catch (Exception ex) {
-                request.setAttribute("result", ex.getMessage());
-                nextPage = "/jsp/error.jsp";
-            } finally {
-                this.dispatch(request, response, nextPage);
-            } **/
         } else if (requestedAction.equals("add_to_cart")) {
             nextPage = "/jsp/titles.jsp";
 
@@ -124,12 +100,14 @@ public class FrontController extends HttpServlet {
             this.dispatch(request, response, nextPage);
         } else if (requestedAction.equals("Checkout")) {
             // Redirect to the checkout page
-            nextPage = "/jsp/checkout.jsp";
-            this.dispatch(request, response, nextPage);
+            Dispatcher dispatcher = (Dispatcher) dispatchers.get(requestedAction);
+            this.dispatch(request, response, dispatcher.execute(request, response));
+            
         } else if (requestedAction.equals("Continue")) {
             // Redirect to the titles page
-            nextPage = "/jsp/titles.jsp";
-            this.dispatch(request, response, nextPage);
+            Dispatcher dispatcher = (Dispatcher) dispatchers.get(requestedAction);
+            this.dispatch(request, response, dispatcher.execute(request, response)); /** Continue to use this instead of sendRedirect as dispatch preserves servlet context/format) **/
+            
         } else if (requestedAction.equals("update_cart")) {
             Map<String, CartItem> cart = null;
             CartItem item = null;
