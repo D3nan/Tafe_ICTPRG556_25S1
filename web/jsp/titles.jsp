@@ -8,6 +8,7 @@
     </head>
 
     <body>
+        <%@ include file="header.jsp" %> <!-- Added header -->
         
         <h1>Items in your Shopping Cart</h1>
         <table>
@@ -124,6 +125,6 @@
         <div class="link-container">
             <p><a href="./books?Action=view_cart">View Shopping Cart</a></p>
         </div>
-        
+        <%@ include file="footer.jsp" %> <!-- Added footer -->
     </body>
 </html>

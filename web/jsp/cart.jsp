@@ -7,6 +7,8 @@
         <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
     <body>
+        <%@ include file="header.jsp" %> <!-- Added header -->
+        
         <%@ page import="model.*" %>
         <%@ page import="java.util.*" %>
         <%@ page import="java.text.*" %>
@@ -79,5 +81,7 @@
             <p><a href="./books?action=continue">Continue Shopping</a></p>
             <p><a href="./books?Action=Checkout">Check Out</a></p>
         </div>
+                        
+        <%@ include file="footer.jsp" %> <!-- Added footer -->
     </body>
 </html>

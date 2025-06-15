@@ -7,6 +7,8 @@
         <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
     <body>
+        <%@ include file="header.jsp" %> <!-- Added header -->
+        
         <%@ page import="model.*" %>
         <%@ page import="java.util.*" %>
         <%@ page import="java.text.*" %>
@@ -96,5 +98,7 @@
 
             <p><input type="submit" value="Submit"></p>
         </form>
+        
+        <%@ include file="footer.jsp" %> <!-- Added footer -->
     </body>
 </html>
