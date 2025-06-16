@@ -8,6 +8,24 @@
     <servlet>
         <servlet-name>FrontController</servlet-name>
         <servlet-class>controller.FrontController</servlet-class>
+        <init-param>
+            <param-name>dbURL</param-name>
+            <param-value>jdbc:derby://localhost:1527/BooksDB</param-value>
+        </init-param>
+        <init-param>
+            <description>Username</description>
+            <param-name>dbUser</param-name>
+            <param-value>user1</param-value>
+        </init-param>
+        <init-param>
+            <description>Database Password</description>
+            <param-name>dbPassword</param-name>
+            <param-value>password</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dbDriver</param-name>
+            <param-value>org.apache.derby.jdbc.ClientDriver</param-value>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>FrontController</servlet-name>
