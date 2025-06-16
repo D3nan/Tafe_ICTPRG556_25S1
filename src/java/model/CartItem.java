@@ -66,7 +66,7 @@ public class CartItem implements Serializable {
      */
     @Override
     public String toString() {
-        return book + "       " + "- Quantity: " + quantity;
+        return book.getTitle() + "       " + "- Quantity: " + quantity; /** included .getTitle() **/
     }
 
     /**

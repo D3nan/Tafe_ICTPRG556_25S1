@@ -6,6 +6,12 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import model.Book;
@@ -18,13 +24,15 @@ import utility.AdmitBookStoreDAO;
 
 public class FrontController extends HttpServlet {
 
-    private final HashMap dispatchers = new HashMap();
+    private final HashMap dispatchers = new HashMap();  
     private final HashMap actions = new HashMap();
     /**
      * Initialize global variables.
      * @param config ServletConfig object
      * @throws ServletException if an error occurs during initialization
      */
+
+    
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         // Additional initialization code can be added here
@@ -35,7 +43,6 @@ public class FrontController extends HttpServlet {
         dispatchers.put("update_cart", new UpdateCartDispatcher());
         dispatchers.put("view_cart", new ViewCartDispatcher());
     }
-
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -55,7 +62,7 @@ public class FrontController extends HttpServlet {
         // Get the requested action from the request parameters
         String requestedAction = request.getParameter("Action");
         HttpSession session = request.getSession();
-        AdmitBookStoreDAO dao = new AdmitBookStoreDAO();
+        /** AdmitBookStoreDAO dao = new AdmitBookStoreDAO(); **/ /**removing DAO**/
         String nextPage = "";
 
         // If no action is specified, fetch all books and display them
@@ -108,4 +115,3 @@ public class FrontController extends HttpServlet {
         return "controller.FrontController Information";
     }
 }
-
