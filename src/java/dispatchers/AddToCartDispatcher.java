@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Book;
 import model.CartItem;
-import utility.AdmitBookStoreDAO;
 
 /**
  * Dispatcher for handling the addition of items to the shopping cart.
