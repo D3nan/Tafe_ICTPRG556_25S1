@@ -14,5 +14,4 @@ import javax.servlet.http.*;
 public interface Dispatcher {
     public String execute (HttpServletRequest request, HttpServletResponse response);
 
-    
 }
